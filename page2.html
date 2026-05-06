@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>团队成员 - 数字孪生遗产</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "微软雅黑", "Segoe UI", "阿里巴巴普惠体", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 30px;
+    position: relative;
+}
+
+.back-home {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    cursor: pointer;
+}
+.back-home:hover {
+    background: rgba(255, 215, 0, 0.8);
+    color: #1a2a3a;
+    border-color: #ffd700;
+    transform: translateX(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.back-home:active {
+    transform: translateX(0);
+}
+
+h1 {
+    font-size: 48px;
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    margin-bottom: 60px;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.team-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 280px;
+    justify-content: center;
+    align-items: start;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.member {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.member-photo {
+    width: 100%;
+    aspect-ratio: 2.5 / 3.5;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    margin-bottom: 18px;
+    transition: transform 0.2s ease;
+}
+
+.member-info {
+    color: white;
+}
+
+.member:hover .member-photo {
+    transform: scale(1.02);
+}
+
+.member-name {
+    font-family: "阿里巴巴普惠体", "PingFang SC", "Microsoft YaHei", "黑体", sans-serif;
+    font-weight: 800;
+    font-size: 26px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+.member-role {
+    font-weight: 400;
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+.member-desc {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+/* 替换为本地图片 */
+.member-1 .member-photo { background-image: url('xzy.jpg'); }
+.member-2 .member-photo { background-image: url('djx.jpg'); }
+.member-3 .member-photo { background-image: url('ha.jpg'); }
+
+.member {
+    animation: cardFlipIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    opacity: 0;
+    transform-origin: center;
+}
+.member-1 { animation-delay: 0.05s; }
+.member-2 { animation-delay: 0.2s; }
+.member-3 { animation-delay: 0.35s; }
+
+@keyframes cardFlipIn {
+    0% {
+        opacity: 0;
+        transform: perspective(800px) rotateY(90deg) scale(0.8);
+        filter: blur(4px);
+    }
+    40% {
+        opacity: 0.5;
+        transform: perspective(800px) rotateY(-10deg) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(800px) rotateY(0deg) scale(1);
+        filter: blur(0);
+    }
+}
+
+@media (max-width: 1200px) {
+    .team-container { gap: 150px; }
+}
+@media (max-width: 900px) {
+    .team-container { gap: 60px; }
+    .member { width: 180px; }
+    .member-name { font-size: 22px; }
+    .member-role { font-size: 16px; }
+    .member-desc { font-size: 13px; }
+}
+@media (max-width: 700px) {
+    .team-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+    .member { width: 100%; min-width: 0; }
+    .member-name { font-size: 20px; }
+    .member-role { font-size: 14px; }
+    .member-desc { font-size: 12px; }
+    h1 { font-size: 36px; margin-bottom: 40px; }
+}
+@media (max-width: 550px) {
+    .team-container {
+        grid-template-columns: 1fr;
+        gap: 45px;
+        justify-items: center;
+    }
+    .member { width: 200px; }
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-home">
+    ← 返回主页
+</a>
+
+<h1>👥 团队成员</h1>
+
+<div class="team-container">
+    <div class="member member-1">
+        <div class="member-photo"></div>
+        <div class="member-info">
+            <div class="member-name">谢宗义</div>
+            <div class="member-role">项目策划/产品设计</div>
+            <div class="member-desc">负责整体架构与文化遗产数字化标准制定，拥有多年经验。</div>
+        </div>
+    </div>
+
+    <div class="member member-2">
+        <div class="member-photo"></div>
+        <div class="member-info">
+            <div class="member-name">戴君羡</div>
+            <div class="member-role">技术负责人 · 三维工程师</div>
+            <div class="member-desc">主导激光雷达建模与Web3D引擎开发，让古建筑在数字世界重现。</div>
+        </div>
+    </div>
+
+    <div class="member member-3">
+        <div class="member-photo"></div>
+        <div class="member-info">
+            <div class="member-name">胡骜</div>
+            <div class="member-role">交互设计师 · 用户体验专家</div>
+            <div class="member-desc">负责元宇宙界面与沉浸式游览体验，连接人与历史的情感。</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>项目介绍 - 数字孪生遗产</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "微软雅黑", "Segoe UI", sans-serif;
+    min-height: 100vh;
+    /* 整体页面背景（深色系衬托图片描边） */
+    background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 30px;
+    position: relative;
+}
+
+/* ---------- 左上角返回按钮（固定位置） ---------- */
+.back-home {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    cursor: pointer;
+}
+.back-home:hover {
+    background: rgba(255, 215, 0, 0.8);
+    color: #1a2a3a;
+    border-color: #ffd700;
+    transform: translateX(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.back-home:active {
+    transform: translateX(0);
+}
+
+/* 页面主标题 */
+h1 {
+    font-size: 48px;
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    margin-bottom: 50px;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+/* 横排容器：使用网格，自动响应式 */
+.modules-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* 每个模块：外描边 + 图片填充 */
+.module {
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 28px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    /* 图片填充方式 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 600px;
+    display: flex;
+    align-items: flex-end;
+    /* 动画：卡片翻转入场 */
+    animation: cardFlipIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    opacity: 0;  /* 初始不可见，动画结束后可见 */
+    transform-origin: center;
+}
+
+/* 为每个模块设置不同的动画延迟，依次出现 */
+.module-1 { animation-delay: 0.05s; }
+.module-2 { animation-delay: 0.2s; }
+.module-3 { animation-delay: 0.35s; }
+
+/* 定义翻转入场关键帧 */
+@keyframes cardFlipIn {
+    0% {
+        opacity: 0;
+        transform: perspective(800px) rotateY(90deg) scale(0.8);
+        filter: blur(4px);
+    }
+    40% {
+        opacity: 0.5;
+        transform: perspective(800px) rotateY(-10deg) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(800px) rotateY(0deg) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* 每个模块不同的背景图片 ———— 已替换为本地图片（文件名含 # 号） */
+.module-1 {
+    background-image: url('p11.png');
+}
+.module-2 {
+    background-image: url('p12.png');
+}
+.module-3 {
+    background-image: url('p13.png');
+}
+
+/* 默认隐藏文字遮罩层 */
+.module-content {
+    background: transparent;
+    backdrop-filter: none;
+    width: 100%;
+    padding: 28px 20px;
+    color: transparent;  /* 文字完全透明不可见 */
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    opacity: 0;
+}
+
+/* 鼠标悬停时显示遮罩 + 文字 + 弥散效果 */
+.module:hover .module-content {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    color: white;
+    opacity: 1;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+/* 模块悬停时外描边增强 + 轻微上浮 */
+.module:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.9);
+}
+
+/* 图标和文字样式（只在显示时生效） */
+.module-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    display: inline-block;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
+}
+
+.module h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.module p {
+    font-size: 16px;
+    line-height: 1.5;
+    opacity: 0.95;
+}
+
+/* 响应式：小于900px时变为两列 */
+@media (max-width: 900px) {
+    .modules-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    .module {
+        min-height: 450px;
+    }
+}
+
+/* 小于600px时变为一列（堆叠） */
+@media (max-width: 600px) {
+    .modules-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    h1 {
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+    .module {
+        min-height: 320px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- 左上角返回主页按钮 -->
+<a href="index.html" class="back-home">
+    ← 返回主页
+</a>
+
+<h1>📖 项目介绍 · 数字孪生遗产</h1>
+
+<div class="modules-container">
+    <!-- 模块 1 -->
+    <div class="module module-1">
+        <div class="module-content">
+            <div class="module-icon">📌</div>
+            <h2>数字孪生理念</h2>
+            <p>通过高精度建模与实时数据映射，将文化遗产“复刻”到虚拟空间，突破物理限制，实现永续保存与远程互动。</p>
+        </div>
+    </div>
+
+    <!-- 模块 2 -->
+    <div class="module module-2">
+        <div class="module-content">
+            <div class="module-icon">💡</div>
+            <h2>技术架构</h2>
+            <p>融合激光雷达、倾斜摄影、AI纹理修复及 Web3D 引擎，构建可交互、可演化的数字遗产“孪生体”。</p>
+        </div>
+    </div>
+
+    <!-- 模块 3 -->
+    <div class="module module-3">
+        <div class="module-content">
+            <div class="module-icon">🚀</div>
+            <h2>未来展望</h2>
+            <p>建设开放的数字遗产元宇宙，支持多用户协同研究、虚拟游览和学术教育，让历史在数字时代重获新生。</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

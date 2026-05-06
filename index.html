@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>数字孪生遗产</title>
+<style>
+/* 页面基础设置 */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 200vh; /* 页面足够长以便滚动触发 */
+    font-family: "微软雅黑", sans-serif;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* 背景 */
+.bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("bj.jpg") center top/cover no-repeat;
+    z-index: -2;
+    transform: scale(1.1); /* 初始略微放大 */
+    filter: blur(0px) brightness(1);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+/* 黑色淡入遮罩 ———— 点击穿透 */
+.fade-black {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 10;
+    pointer-events: none;
+    animation: fadeInBlack 2s ease forwards;
+}
+
+/* 主内容 */
+.content {
+    position: fixed;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+h1 { font-size: 60px; }
+p { font-size: 24px; }
+
+/* 按钮样式 */
+button {
+    display: block;
+    width: 250px;
+    margin: 20px auto;
+    padding: 15px;
+    font-size: 20px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.217);
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    text-shadow: 0 0 3px black;
+    transition: background-color 0.2s ease, opacity 0.5s ease, transform 0.3s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* 滚动触发显示 */
+button.visible {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* 鼠标悬停效果（仅当按钮可见时才会触发，但可直接定义） */
+button:hover {
+    background-color: rgba(255, 215, 0, 0.7);  /* 金色半透明背景 */
+    border-color: #ffd700;                    /* 金色边框 */
+    transform: scale(1.12);                  /* 比可见状态再大一圈 */
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); /* 金色外发光 */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* 点击按下压暗 */
+button:active {
+    background-color: rgba(0, 0, 0, 0.6);
+    transform: scale(1.02);
+    box-shadow: none;
+}
+
+/* 黑色淡入动画 */
+@keyframes fadeInBlack {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="fade-black"></div>
+
+<div class="content">
+    <h1>数字孪生遗产</h1>
+    <p>让历史，在元宇宙中重生</p>
+
+    <button class="btn1" onclick="handleClick('page1')">项目介绍</button>
+    <button class="btn2" onclick="handleClick('page2')">团队成员</button>
+    <button class="btn3" onclick="handleClick('page3')">联系我们</button>
+</div>
+
+<script>
+// 获取元素
+const bg = document.querySelector('.bg');
+const content = document.querySelector('.content');
+const buttons = document.querySelectorAll('button');
+
+const triggerDistance = 10;
+
+// 主动将页面设置为“已滚动显示”状态
+function setVisibleState(visible) {
+    if (visible) {
+        bg.style.transform = 'scale(1)';
+        bg.style.filter = 'blur(8px) brightness(0.4)';
+        content.style.opacity = 1;
+        buttons.forEach(btn => btn.classList.add('visible'));
+    } else {
+        bg.style.transform = 'scale(1.1)';
+        bg.style.filter = 'blur(0px) brightness(1)';
+        content.style.opacity = 0;
+        buttons.forEach(btn => btn.classList.remove('visible'));
+    }
+}
+
+// 滚动监听事件
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    if (scrollY > triggerDistance) {
+        setVisibleState(true);
+    } else {
+        setVisibleState(false);
+    }
+});
+
+// 按钮点击跳转接口：跳转前保存标记，让返回时保持显示状态
+function handleClick(page) {
+    sessionStorage.setItem('preserveButtonState', 'true');
+    window.location.href = page + '.html';
+}
+
+// 页面加载时，检查是否需要强制显示按钮状态（从子页面返回时）
+window.addEventListener('DOMContentLoaded', () => {
+    const shouldPreserve = sessionStorage.getItem('preserveButtonState');
+    if (shouldPreserve === 'true') {
+        // 强制显示按钮和背景效果
+        setVisibleState(true);
+        // 清除标记，避免刷新页面后仍然强制显示
+        sessionStorage.removeItem('preserveButtonState');
+    } else {
+        // 初始状态：未滚动，按钮不显示（与滚动位置一致）
+        const scrollY = window.scrollY || window.pageYOffset;
+        if (scrollY > triggerDistance) {
+            setVisibleState(true);
+        } else {
+            setVisibleState(false);
+        }
+    }
+});
+</script>
+</body>
+</html>
